@@ -35,7 +35,7 @@ const columns = [
   },
   {
     id: 'nomenclatura',
-    label: 'Nomenclatura de la variante identificada según la OMS',
+    label: 'Nomenclatura según la OMS de la variante identificada',
     minWidth: 170,
     align: 'center',
     background: '#FFFFFF',
