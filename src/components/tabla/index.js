@@ -160,7 +160,7 @@ const Tabla = (props) => {
     Axios.post(`http://54.91.170.71/tablaespacio/?${params}`).then((response) => {
       setFilas(response.data);
       setCargando(false);
-    });
+    }).catch((err) => console.log(err));;
     // eslint-disable-next-line
   }, []);
 
@@ -172,7 +172,7 @@ const Tabla = (props) => {
     Axios.post(`http://54.91.170.71/tablaespacio/?${params}`).then((response) => {
       setFilas(response.data);
       setCargando(false);
-    });
+    }).catch((err) => console.log(err));;
     props.estado.valor=0
   }
 
@@ -204,7 +204,7 @@ const Tabla = (props) => {
   return (
     <Grid item xs={12} sm={12}>
       <Box className={classes.paper2} boxShadow={0} height={550}>
-        <Grid container justify='space-between'>
+        <Grid container justifyContent="space-between">
         <Typography 
           variant= "h6"
           align= "left"
@@ -256,10 +256,10 @@ const Tabla = (props) => {
       </TableContainer>
       )}
       {!cargando && (
-        <Grid container justify='row_space_between'>
-          <td style={{paddingTop:'15px'}}>
+        <Grid container justifyContent="space-between">
+          <div style={{paddingTop:'15px'}}>
             (*) Identificador en la base de datos GISAID.
-          </td>        
+          </div>        
           <TablePagination
             className="mx-auto"
             labelRowsPerPage={"Filas por página"}

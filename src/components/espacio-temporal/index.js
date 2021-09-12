@@ -101,7 +101,7 @@ const EspacioTiempo = (props) => {
         const item1= JSON.parse(val1)
         window.Bokeh.embed.embed_item(item1, 'graficolineal')
         setCargandoLineal(false);
-      });
+      }).catch((err) => console.log(err));
       // eslint-disable-next-line
     }, []);
 
@@ -111,7 +111,7 @@ const EspacioTiempo = (props) => {
         const item= JSON.parse(val)
         window.Bokeh.embed.embed_item(item, 'mapa')
         setCargandoMapa(false);
-      });
+      }).catch((err) => console.log(err));
       // eslint-disable-next-line
     }, []);
 
@@ -121,7 +121,7 @@ const EspacioTiempo = (props) => {
         const item1= JSON.parse(val1)
         window.Bokeh.embed.embed_item(item1, 'graficocircular')
         setCargandoCircular(false);
-      });
+      }).catch((err) => console.log(err));
       // eslint-disable-next-line
     }, []);
 
@@ -137,7 +137,7 @@ const EspacioTiempo = (props) => {
         const item1= JSON.parse(val1)
         window.Bokeh.embed.embed_item(item1, 'graficolineal')
         setCargandoLineal(false);
-      });
+      }).catch((err) => console.log(err));
 
       setCargandoMapa(true);
       Axios.post(`http://54.91.170.71/mapa/?${params}`).then((response) => {
@@ -145,7 +145,7 @@ const EspacioTiempo = (props) => {
         const item= JSON.parse(val)
         window.Bokeh.embed.embed_item(item, 'mapa')
         setCargandoMapa(false);
-      });
+      }).catch((err) => console.log(err));
 
       setCargandoCircular(true);
       Axios.post(`http://54.91.170.71/graficocircular/?${params}`).then((response) => {
@@ -153,7 +153,7 @@ const EspacioTiempo = (props) => {
         const item1= JSON.parse(val1)
         window.Bokeh.embed.embed_item(item1, 'graficocircular')
         setCargandoCircular(false);
-      });
+      }).catch((err) => console.log(err));
     }
 
     return (
