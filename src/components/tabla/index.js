@@ -203,7 +203,7 @@ const Tabla = (props) => {
 
   return (
     <Grid item xs={12} sm={12}>
-      <Box className={classes.paper2} boxShadow={0} height={550}>
+      <Box className={classes.paper2} boxShadow={0} height={580}>
         <Grid container justifyContent="space-between">
         <Typography 
           variant= "h6"
