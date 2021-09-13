@@ -12,6 +12,9 @@ function App(){
     fechaIni: 'Wed Apr 08 2020 20:51:01 GMT-0500',
     fechaFin: 'Wed Sep 01 2021 20:00:01 GMT-0500',
     algoritmo: 0,
+    departamentos: ['Amazonas','Áncash','Apurímac','Arequipa','Ayacucho','Cajamarca','Callao','Cusco',
+    'Huancavelica','Huánuco','Ica','Junín','La Libertad','Lambayeque','Lima','Loreto','Madre de Dios',
+    'Moquegua','Pasco','Piura','Puno','San Martín','Tacna','Tumbes','Ucayali'],
     valor:0
   })
 
@@ -20,6 +23,7 @@ function App(){
       fechaIni: e.fechaIni,
       fechaFin: e.fechaFin,
       algoritmo: e.algoritmo,
+      departamentos: e.departamentos,
       valor:1
     })
   }

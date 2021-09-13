@@ -151,13 +151,14 @@ const Tabla = (props) => {
   }
   const fechaIni=convert(props.estado.fechaIni);
   const fechaFin=convert(props.estado.fechaFin);
+  const deps=props.estado.departamentos;
   const params=`fechaIni=${fechaIni}&fechaFin=${fechaFin}`
   const [filas,setFilas]=React.useState([]);
   
   const [cargando, setCargando] = React.useState(true);
 
   React.useEffect(() => {
-    Axios.post(`http://54.91.170.71/tablaespacio/?${params}`).then((response) => {
+    Axios.post(`http://127.0.0.1:8000/tablaespacio/?${params}`,deps).then((response) => {
       setFilas(response.data);
       setCargando(false);
     }).catch((err) => console.log(err));;
@@ -167,9 +168,10 @@ const Tabla = (props) => {
   if (props.estado.valor===1){
     const fechaIni=convert(props.estado.fechaIni);
     const fechaFin=convert(props.estado.fechaFin);
+    const deps=props.estado.departamentos;
     const params=`fechaIni=${fechaIni}&fechaFin=${fechaFin}`
     setCargando(true);
-    Axios.post(`http://54.91.170.71/tablaespacio/?${params}`).then((response) => {
+    Axios.post(`http://127.0.0.1:8000/tablaespacio/?${params}`,deps).then((response) => {
       setFilas(response.data);
       setCargando(false);
     }).catch((err) => console.log(err));;

@@ -1,7 +1,7 @@
 import React from 'react';
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme  } from '@material-ui/core/styles';
 import Select from '@material-ui/core/Select';
 import deLocale from "date-fns/locale/es";
 import { Box,Container,Grid,MenuItem } from '@material-ui/core';
@@ -12,6 +12,9 @@ import { Typography,FormControl,InputLabel } from '@material-ui/core';
 import Axios from 'axios';
 import {Mapa, Tiempo} from './graficos';
 import Cargando from './cargando';
+import Chip from '@material-ui/core/Chip';
+import Input from '@material-ui/core/Input';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,7 +39,14 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     minWidth: 200,
     textAlign: 'center'
+  },  
+  chips: {
+    display: 'flex',
+    flexWrap: 'wrap',
   },
+  chip: {
+    margin: 2,
+  }
 }));
 
 const EspacioTiempo = (props) => {
@@ -46,32 +56,57 @@ const EspacioTiempo = (props) => {
       {"id_algoritmo": 2, "nombre": "Jerárquico"},
       {"id_algoritmo": 3, "nombre": "DBSCAN"}
     ];
+    const departamentos =['Todos','Amazonas','Áncash','Apurímac','Arequipa','Ayacucho','Cajamarca','Callao','Cusco',
+    'Huancavelica','Huánuco','Ica','Junín','La Libertad','Lambayeque','Lima','Loreto','Madre de Dios',
+    'Moquegua','Pasco','Piura','Puno','San Martín','Tacna','Tumbes','Ucayali']
+    const todosDepartamentos =['Amazonas','Áncash','Apurímac','Arequipa','Ayacucho','Cajamarca','Callao','Cusco',
+    'Huancavelica','Huánuco','Ica','Junín','La Libertad','Lambayeque','Lima','Loreto','Madre de Dios',
+    'Moquegua','Pasco','Piura','Puno','San Martín','Tacna','Tumbes','Ucayali']
 
     const [inicioDate, setInicioDate] = React.useState('Wed Apr 08 2020 20:51:01 GMT-0500');
     const [finDate, setFinDate] = React.useState('Wed Sep 01 2021 20:00:01 GMT-0500');
     const [algoritmo, setAlgoritmo] = React.useState(0);
     const [open, setOpen] = React.useState(false);
+    const [nombreDepartamentos, setNombreDepartamentos] = React.useState(todosDepartamentos);
+
+    if (nombreDepartamentos.length === 25){
+      departamentos.splice(0, 1);
+      departamentos.push('Borrar selección');
+    }
 
     const [state,setState] = React.useState({
       fechaIni: inicioDate,
       fechaFin: finDate,
-      algoritmo: algoritmo
+      algoritmo: algoritmo,
+      departamentos: nombreDepartamentos
     })
 
     const {pasarDatos} = props;
 
+    const handleChangeDepartamentos = (event) => {
+      if(event.target.value.includes('Todos')){
+        setNombreDepartamentos(todosDepartamentos);
+        setState({fechaIni: state.fechaIni,fechaFin: state.fechaFin,algoritmo: state.algoritmo,departamentos: todosDepartamentos});
+      }else if(event.target.value.includes('Borrar selección')){
+        setNombreDepartamentos([]);
+      }else{
+        setNombreDepartamentos(event.target.value);
+        setState({fechaIni: state.fechaIni,fechaFin: state.fechaFin,algoritmo: state.algoritmo,departamentos: event.target.value});
+      }
+    };
+
     const handleInicioDateChange = (date) => {
       setInicioDate(date);
-      setState({fechaIni: date,fechaFin: state.fechaFin, algoritmo: state.algoritmo});
+      setState({fechaIni: date,fechaFin: state.fechaFin, algoritmo: state.algoritmo,departamentos: state.departamentos});
     };
     const handleFinDateChange = (date) => {
       setFinDate(date);
-      setState({fechaIni: state.fechaIni,fechaFin: date, algoritmo: state.algoritmo});
+      setState({fechaIni: state.fechaIni,fechaFin: date, algoritmo: state.algoritmo,departamentos: state.departamentos});
     };
 
     const handleChange = (event) => {
       setAlgoritmo(event.target.value);
-      setState({fechaIni: state.fechaIni,fechaFin: state.fechaFin,algoritmo: event.target.value});
+      setState({fechaIni: state.fechaIni,fechaFin: state.fechaFin,algoritmo: event.target.value,departamentos: state.departamentos});
     };  
     const handleClose = () => {
       setOpen(false);
@@ -96,7 +131,7 @@ const EspacioTiempo = (props) => {
     const [cargandoCircular, setCargandoCircular] = React.useState(true);
     
     React.useEffect(() => {
-      Axios.post(`http://54.91.170.71/graficolineal/?${params}`).then((response) => {
+      Axios.post(`http://54.91.170.71/graficolineal/?${params}`,nombreDepartamentos).then((response) => {
         const val1 = response.data
         const item1= JSON.parse(val1)
         window.Bokeh.embed.embed_item(item1, 'graficolineal')
@@ -106,7 +141,7 @@ const EspacioTiempo = (props) => {
     }, []);
 
     React.useEffect(() => {
-      Axios.post(`http://54.91.170.71/mapa/?${params}`).then((response) => {
+      Axios.post(`http://54.91.170.71/mapa/?${params}`,nombreDepartamentos).then((response) => {
         const val = response.data
         const item= JSON.parse(val)
         window.Bokeh.embed.embed_item(item, 'mapa')
@@ -116,7 +151,7 @@ const EspacioTiempo = (props) => {
     }, []);
 
     React.useEffect(() => {
-      Axios.post(`http://54.91.170.71/graficocircular/?${params}`).then((response) => {
+      Axios.post(`http://54.91.170.71/graficocircular/?${params}`,nombreDepartamentos).then((response) => {
         const val1 = response.data
         const item1= JSON.parse(val1)
         window.Bokeh.embed.embed_item(item1, 'graficocircular')
@@ -125,14 +160,35 @@ const EspacioTiempo = (props) => {
       // eslint-disable-next-line
     }, []);
 
+    function getStyles(name, nombreDepartamentos, theme) {
+      return {
+        fontWeight:
+          nombreDepartamentos.indexOf(name) === -1
+            ? theme.typography.fontWeightRegular
+            : theme.typography.fontWeightMedium,
+      };
+    }
+    const theme = useTheme();
+
+    const ITEM_HEIGHT = 48;
+    const ITEM_PADDING_TOP = 8;
+    const MenuProps = {
+      PaperProps: {
+        style: {
+          maxHeight: ITEM_HEIGHT * 2.5 + ITEM_PADDING_TOP,
+          width: 250,
+        },
+      },
+    };
+
     function click() {
       pasarDatos(state);
       const fechaIni=convert(state.fechaIni);
       const fechaFin=convert(state.fechaFin);
       const params=`fechaIni=${fechaIni}&fechaFin=${fechaFin}`
-
+      //54.91.170.71
       setCargandoLineal(true);
-      Axios.post(`http://54.91.170.71/graficolineal/?${params}`).then((response) => {
+      Axios.post(`http://127.0.0.1:8000/graficolineal/?${params}`,nombreDepartamentos).then((response) => {
         const val1 = response.data
         const item1= JSON.parse(val1)
         window.Bokeh.embed.embed_item(item1, 'graficolineal')
@@ -140,7 +196,7 @@ const EspacioTiempo = (props) => {
       }).catch((err) => console.log(err));
 
       setCargandoMapa(true);
-      Axios.post(`http://54.91.170.71/mapa/?${params}`).then((response) => {
+      Axios.post(`http://127.0.0.1:8000/mapa/?${params}`,nombreDepartamentos).then((response) => {
         const val = response.data
         const item= JSON.parse(val)
         window.Bokeh.embed.embed_item(item, 'mapa')
@@ -148,14 +204,14 @@ const EspacioTiempo = (props) => {
       }).catch((err) => console.log(err));
 
       setCargandoCircular(true);
-      Axios.post(`http://54.91.170.71/graficocircular/?${params}`).then((response) => {
+      Axios.post(`http://127.0.0.1:8000/graficocircular/?${params}`,nombreDepartamentos).then((response) => {
         const val1 = response.data
         const item1= JSON.parse(val1)
         window.Bokeh.embed.embed_item(item1, 'graficocircular')
         setCargandoCircular(false);
       }).catch((err) => console.log(err));
     }
-
+  
     return (
       <Grid container>
       <Grid item xs={12} sm={12}>
@@ -207,6 +263,33 @@ const EspacioTiempo = (props) => {
             </NavBtn>
           </Grid>        
         </MuiPickersUtilsProvider>
+        <Grid container justifyContent="space-around" alignItems="stretch">
+          <FormControl className={classes.formControl}>
+            <InputLabel htmlFor="departamentos">Departamentos</InputLabel>
+            <Select
+              name="departamentos"
+              id="multiple-departamento"
+              multiple
+              value={nombreDepartamentos}
+              onChange={handleChangeDepartamentos}
+              input={<Input id="select-multiple" />}
+              renderValue={(selected) => (
+                <div className={classes.chips}>
+                  {selected.map((value) => (
+                    <Chip key={value} label={value} className={classes.chip} />
+                  ))}
+                </div>
+              )}
+              MenuProps={MenuProps}
+            >
+              {departamentos.map((name) => (
+                <MenuItem key={name} value={name} style={getStyles(name, nombreDepartamentos, theme)}>
+                  {name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
         </Container>
         </Box>
         </Grid>
