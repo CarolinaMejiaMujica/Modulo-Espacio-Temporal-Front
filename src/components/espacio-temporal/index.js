@@ -186,9 +186,8 @@ const EspacioTiempo = (props) => {
       const fechaIni=convert(state.fechaIni);
       const fechaFin=convert(state.fechaFin);
       const params=`fechaIni=${fechaIni}&fechaFin=${fechaFin}`
-      //54.91.170.71
       setCargandoLineal(true);
-      Axios.post(`http://127.0.0.1:8000/graficolineal/?${params}`,nombreDepartamentos).then((response) => {
+      Axios.post(`http://54.91.170.71/graficolineal/?${params}`,nombreDepartamentos).then((response) => {
         const val1 = response.data
         const item1= JSON.parse(val1)
         window.Bokeh.embed.embed_item(item1, 'graficolineal')
@@ -196,7 +195,7 @@ const EspacioTiempo = (props) => {
       }).catch((err) => console.log(err));
 
       setCargandoMapa(true);
-      Axios.post(`http://127.0.0.1:8000/mapa/?${params}`,nombreDepartamentos).then((response) => {
+      Axios.post(`http://54.91.170.71/mapa/?${params}`,nombreDepartamentos).then((response) => {
         const val = response.data
         const item= JSON.parse(val)
         window.Bokeh.embed.embed_item(item, 'mapa')
@@ -204,7 +203,7 @@ const EspacioTiempo = (props) => {
       }).catch((err) => console.log(err));
 
       setCargandoCircular(true);
-      Axios.post(`http://127.0.0.1:8000/graficocircular/?${params}`,nombreDepartamentos).then((response) => {
+      Axios.post(`http://54.91.170.71/graficocircular/?${params}`,nombreDepartamentos).then((response) => {
         const val1 = response.data
         const item1= JSON.parse(val1)
         window.Bokeh.embed.embed_item(item1, 'graficocircular')

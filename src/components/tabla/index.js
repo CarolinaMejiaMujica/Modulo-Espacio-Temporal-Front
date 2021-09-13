@@ -158,7 +158,7 @@ const Tabla = (props) => {
   const [cargando, setCargando] = React.useState(true);
 
   React.useEffect(() => {
-    Axios.post(`http://127.0.0.1:8000/tablaespacio/?${params}`,deps).then((response) => {
+    Axios.post(`http://54.91.170.71/tablaespacio/?${params}`,deps).then((response) => {
       setFilas(response.data);
       setCargando(false);
     }).catch((err) => console.log(err));;
@@ -171,7 +171,7 @@ const Tabla = (props) => {
     const deps=props.estado.departamentos;
     const params=`fechaIni=${fechaIni}&fechaFin=${fechaFin}`
     setCargando(true);
-    Axios.post(`http://127.0.0.1:8000/tablaespacio/?${params}`,deps).then((response) => {
+    Axios.post(`http://54.91.170.71/tablaespacio/?${params}`,deps).then((response) => {
       setFilas(response.data);
       setCargando(false);
     }).catch((err) => console.log(err));;
