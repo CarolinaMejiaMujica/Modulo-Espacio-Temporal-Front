@@ -123,7 +123,8 @@ const EspacioTiempo = (props) => {
       }else{
         if (name ==='Todos'){
           setisDisabled(true);
-          setNombreDepartamentos(departamentos);
+          nombreDepartamentos.push(name);
+          //setNombreDepartamentos(departamentos);
           return
         }
         nombreDepartamentos.push(name);
@@ -164,13 +165,19 @@ const EspacioTiempo = (props) => {
     const [cargandoMapa, setCargandoMapa] = React.useState(true);
     const [cargandoLineal, setCargandoLineal] = React.useState(true);
     const [cargandoCircular, setCargandoCircular] = React.useState(true);
+    const [bandera, setBandera] = React.useState(false);
     
     React.useEffect(() => {
       Axios.post(`http://54.91.170.71/graficolineal/?${params}`,nombreDepartamentos).then((response) => {
         const val1 = response.data
-        const item1= JSON.parse(val1)
-        window.Bokeh.embed.embed_item(item1, 'graficolineal')
-        setCargandoLineal(false);
+        if(val1 === 'No hay datos'){
+          setBandera(true)
+        }else{
+          setBandera(false)
+          const item1= JSON.parse(val1)
+          window.Bokeh.embed.embed_item(item1, 'graficolineal')
+          setCargandoLineal(false);
+        }
       }).catch((err) => console.log(err));
       // eslint-disable-next-line
     }, []);
@@ -201,13 +208,19 @@ const EspacioTiempo = (props) => {
       const fechaFin=convert(state.fechaFin);
       const params=`fechaIni=${fechaIni}&fechaFin=${fechaFin}`
       //54.91.170.71
-      console.log(nombreDepartamentos);
       setCargandoLineal(true);
       Axios.post(`http://54.91.170.71/graficolineal/?${params}`,nombreDepartamentos).then((response) => {
         const val1 = response.data
-        const item1= JSON.parse(val1)
-        window.Bokeh.embed.embed_item(item1, 'graficolineal')
         setCargandoLineal(false);
+        if(val1 === 'No hay datos'){
+          setBandera(true)
+          setCargandoLineal(false);
+        }else{
+          setBandera(false)
+          const item1= JSON.parse(val1)
+          window.Bokeh.embed.embed_item(item1, 'graficolineal')
+          setCargandoLineal(false);
+        }
       }).catch((err) => console.log(err));
 
       setCargandoMapa(true);
@@ -228,7 +241,7 @@ const EspacioTiempo = (props) => {
     }
   
     return (
-      <Grid container>
+       <Grid container>
         <Grid item xs={12} sm={12}>
           <Box className={classes.paper2} boxShadow={0}>
             <Container maxWidth={false}>
@@ -320,54 +333,70 @@ const EspacioTiempo = (props) => {
             </Container>
           </Box>
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <Box className={classes.paper1}  boxShadow={0} height={650}>
-              <Typography 
-                variant= "h6"
-                align= "center"
-                className={classes.bold}>
-                Variantes identificadas en el espacio
-              </Typography>
-              {cargandoMapa && (
-                <Cargando />
-              )}
-              {!cargandoMapa && (
-                <Mapa id='mapa' className="bk-root" ></Mapa>
-              )}
-            </Box>
+          {!bandera && (
+          <Grid container>
+            <Grid item xs={12} sm={6}>
+              <Box className={classes.paper1}  boxShadow={0} height={650}>
+                <Typography 
+                  variant= "h6"
+                  align= "center"
+                  className={classes.bold}>
+                  Variantes identificadas en el espacio
+                </Typography>
+                {cargandoMapa && (
+                  <Cargando />
+                )}
+                {!cargandoMapa && (
+                  <Mapa id='mapa' className="bk-root" ></Mapa>
+                )}
+              </Box>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Box className={classes.paper1} boxShadow={0} height={650}>
+                <Typography 
+                  variant= "h6"
+                  align= "center"
+                  className={classes.bold}>
+                  Porcentaje de variantes identificadas en el tiempo
+                </Typography>
+                {cargandoCircular && (
+                  <Cargando />
+                )}
+                {!cargandoCircular && (
+                  <Tiempo id='graficocircular' className="bk-root"></Tiempo>
+                )}
+              </Box>
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <Box className={classes.paper1} boxShadow={0} height={750}>
+                <Typography 
+                  variant= "h6"
+                  align= "center"
+                  className={classes.bold}>
+                  Variantes identificadas en el tiempo
+                </Typography>
+                {cargandoLineal && (
+                  <Cargando />
+                )}
+                {!cargandoLineal && (
+                  <Tiempo id='graficolineal' className="bk-root"></Tiempo>
+                )}
+              </Box>
+            </Grid>
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <Box className={classes.paper1} boxShadow={0} height={650}>
-              <Typography 
-                variant= "h6"
-                align= "center"
-                className={classes.bold}>
-                Porcentaje de variantes identificadas en el tiempo
-              </Typography>
-              {cargandoCircular && (
-                <Cargando />
-              )}
-              {!cargandoCircular && (
-                <Tiempo id='graficocircular' className="bk-root"></Tiempo>
-              )}
-            </Box>
-          </Grid>
-          <Grid item xs={12} sm={12}>
-            <Box className={classes.paper1} boxShadow={0} height={550}>
-              <Typography 
-                variant= "h6"
-                align= "center"
-                className={classes.bold}>
-                Variantes identificadas en el tiempo
-              </Typography>
-              {cargandoLineal && (
-                <Cargando />
-              )}
-              {!cargandoLineal && (
-                <Tiempo id='graficolineal' className="bk-root"></Tiempo>
-              )}
-            </Box>
-          </Grid>
+          )}
+          {bandera && (
+            <Grid item xs={12} sm={12}>
+              <Box className={classes.paper1} boxShadow={0} height={60}>
+                <Typography 
+                  variant= "h6"
+                  align= "center"
+                  className={classes.bold}>
+                  No hay datos para los filtros seleccionados
+                </Typography>
+              </Box>
+            </Grid>
+          )}
         </Grid>
     );
 };

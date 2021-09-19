@@ -156,11 +156,18 @@ const Tabla = (props) => {
   const [filas,setFilas]=React.useState([]);
   
   const [cargando, setCargando] = React.useState(true);
+  const [bandera, setBandera] = React.useState(false);
 
   React.useEffect(() => {
     Axios.post(`http://54.91.170.71/tablaespacio/?${params}`,deps).then((response) => {
-      setFilas(response.data);
-      setCargando(false);
+      const val1=response.data;
+      if(val1 === 'No hay datos'){
+        setBandera(true)
+      }else{
+        setBandera(false)
+        setFilas(response.data);
+        setCargando(false);
+      }
     }).catch((err) => console.log(err));;
     // eslint-disable-next-line
   }, []);
@@ -172,9 +179,15 @@ const Tabla = (props) => {
     const params=`fechaIni=${fechaIni}&fechaFin=${fechaFin}`
     setCargando(true);
     Axios.post(`http://54.91.170.71/tablaespacio/?${params}`,deps).then((response) => {
-      setFilas(response.data);
-      setCargando(false);
-    }).catch((err) => console.log(err));;
+      const val1=response.data;
+      if(val1 === 'No hay datos'){
+        setBandera(true)
+      }else{
+        setBandera(false)
+        setFilas(response.data);
+        setCargando(false);
+      }
+    }).catch((err) => console.log(err));
     props.estado.valor=0
   }
 
@@ -205,6 +218,7 @@ const Tabla = (props) => {
 
   return (
     <Grid item xs={12} sm={12}>
+      {!bandera && (
       <Box className={classes.paper2} boxShadow={0} height={580}>
         <Grid container justifyContent="space-between">
         <Typography 
@@ -282,6 +296,11 @@ const Tabla = (props) => {
         </Grid>
       )}
       </Box>
+      )}
+      {bandera && (
+            <Box>
+            </Box>
+        )}
     </Grid>
   );
 }
