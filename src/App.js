@@ -10,7 +10,7 @@ function App(){
 
   const [state,setState] = React.useState({
     fechaIni: 'Wed Mar 05 2020 20:51:01 GMT-0500',
-    fechaFin: 'Wed Jul 27 2021 20:00:01 GMT-0500',
+    fechaFin: 'Wed Sep 01 2021 20:00:01 GMT-0500',
     algoritmo: 0,
     departamentos: ['Todos','Amazonas','Áncash','Apurímac','Arequipa','Ayacucho','Cajamarca','Callao','Cusco',
     'Huancavelica','Huánuco','Ica','Junín','La Libertad','Lambayeque','Lima','Loreto','Madre de Dios',

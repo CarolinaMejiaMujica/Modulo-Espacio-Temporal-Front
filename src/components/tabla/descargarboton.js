@@ -9,7 +9,7 @@ export const Btn = styled.nav`
   color: #fff;
   outline: none;
   border: none;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
   font-style: roboto;
   cursor: pointer;

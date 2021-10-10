@@ -96,7 +96,7 @@ const EspacioTiempo = (props) => {
     'Moquegua','Pasco','Piura','Puno','San Martín','Tacna','Tumbes','Ucayali']
 
     const [inicioDate, setInicioDate] = React.useState('Wed Mar 05 2020 20:51:01 GMT-0500');
-    const [finDate, setFinDate] = React.useState('Wed Jul 27 2021 20:00:01 GMT-0500');
+    const [finDate, setFinDate] = React.useState('Wed Sep 01 2021 20:00:01 GMT-0500');
     const [algoritmo, setAlgoritmo] = React.useState(0);
     const [open, setOpen] = React.useState(false);
     const [nombreDepartamentos,setNombreDepartamentos] = React.useState(departamentos);
@@ -168,7 +168,7 @@ const EspacioTiempo = (props) => {
     const [bandera, setBandera] = React.useState(false);
     
     React.useEffect(() => {
-      Axios.post(`http://54.91.170.71/graficolineal/?${params}`,nombreDepartamentos).then((response) => {
+      Axios.post(`http://localhost:8000/graficolineal/?${params}`,nombreDepartamentos).then((response) => {
         const val1 = response.data
         if(val1 === 'No hay datos'){
           setBandera(true)
@@ -183,7 +183,7 @@ const EspacioTiempo = (props) => {
     }, []);
 
     React.useEffect(() => {
-      Axios.post(`http://54.91.170.71/mapa/?${params}`,nombreDepartamentos).then((response) => {
+      Axios.post(`http://localhost:8000/mapa/?${params}`,nombreDepartamentos).then((response) => {
         const val = response.data
         const item= JSON.parse(val)
         window.Bokeh.embed.embed_item(item, 'mapa')
@@ -193,7 +193,7 @@ const EspacioTiempo = (props) => {
     }, []);
 
     React.useEffect(() => {
-      Axios.post(`http://54.91.170.71/graficocircular/?${params}`,nombreDepartamentos).then((response) => {
+      Axios.post(`http://localhost:8000/graficocircular/?${params}`,nombreDepartamentos).then((response) => {
         const val1 = response.data
         const item1= JSON.parse(val1)
         window.Bokeh.embed.embed_item(item1, 'graficocircular')
@@ -207,9 +207,9 @@ const EspacioTiempo = (props) => {
       const fechaIni=convert(state.fechaIni);
       const fechaFin=convert(state.fechaFin);
       const params=`fechaIni=${fechaIni}&fechaFin=${fechaFin}`
-      //54.91.170.71
+      //localhost:8000
       setCargandoLineal(true);
-      Axios.post(`http://54.91.170.71/graficolineal/?${params}`,nombreDepartamentos).then((response) => {
+      Axios.post(`http://localhost:8000/graficolineal/?${params}`,nombreDepartamentos).then((response) => {
         const val1 = response.data
         setCargandoLineal(false);
         if(val1 === 'No hay datos'){
@@ -224,7 +224,7 @@ const EspacioTiempo = (props) => {
       }).catch((err) => console.log(err));
 
       setCargandoMapa(true);
-      Axios.post(`http://54.91.170.71/mapa/?${params}`,nombreDepartamentos).then((response) => {
+      Axios.post(`http://localhost:8000/mapa/?${params}`,nombreDepartamentos).then((response) => {
         const val = response.data
         const item= JSON.parse(val)
         window.Bokeh.embed.embed_item(item, 'mapa')
@@ -232,7 +232,7 @@ const EspacioTiempo = (props) => {
       }).catch((err) => console.log(err));
 
       setCargandoCircular(true);
-      Axios.post(`http://54.91.170.71/graficocircular/?${params}`,nombreDepartamentos).then((response) => {
+      Axios.post(`http://localhost:8000/graficocircular/?${params}`,nombreDepartamentos).then((response) => {
         const val1 = response.data
         const item1= JSON.parse(val1)
         window.Bokeh.embed.embed_item(item1, 'graficocircular')
@@ -254,7 +254,7 @@ const EspacioTiempo = (props) => {
                     <KeyboardDatePicker
                       disableToolbar
                       minDate={'2020-03-06'}
-                      maxDate={'2021-07-28'}
+                      maxDate={'2021-09-02'}
                       style={{ margin: "0%" }}
                       inputProps={{min: 0, style: { textAlign: 'center' }}}
                       variant="inline"
@@ -273,7 +273,7 @@ const EspacioTiempo = (props) => {
                     <KeyboardDatePicker
                       disableToolbar
                       minDate={'2020-03-05'}
-                      maxDate={'2021-07-28'}
+                      maxDate={'2021-09-02'}
                       style={{ margin: "0%" }}
                       variant="inline"
                       format="dd/MM/yyyy"

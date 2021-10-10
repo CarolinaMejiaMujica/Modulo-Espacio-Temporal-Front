@@ -29,7 +29,7 @@ const Navbar = () => {
                         Análisis de Secuencias Genómicas SARS-CoV-2 Perú
                     </Typography>
                     <NavLink>
-                        Actualizado el 31/08/2021
+                        Actualizado el 01/09/2021
                     </NavLink>
                     <NavDatos> Facilitado por datos de
                         <a rel="noopener noreferrer" href="https://www.gisaid.org" target="_blank">

@@ -159,7 +159,7 @@ const Tabla = (props) => {
   const [bandera, setBandera] = React.useState(false);
 
   React.useEffect(() => {
-    Axios.post(`http://54.91.170.71/tablaespacio/?${params}`,deps).then((response) => {
+    Axios.post(`http://localhost:8000/tablaespacio/?${params}`,deps).then((response) => {
       const val1=response.data;
       if(val1 === 'No hay datos'){
         setBandera(true)
@@ -178,7 +178,7 @@ const Tabla = (props) => {
     const deps=props.estado.departamentos;
     const params=`fechaIni=${fechaIni}&fechaFin=${fechaFin}`
     setCargando(true);
-    Axios.post(`http://54.91.170.71/tablaespacio/?${params}`,deps).then((response) => {
+    Axios.post(`http://localhost:8000/tablaespacio/?${params}`,deps).then((response) => {
       const val1=response.data;
       if(val1 === 'No hay datos'){
         setBandera(true)
