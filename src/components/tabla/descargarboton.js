@@ -1,10 +1,10 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Btn = styled.nav`
-  display:flex;
+  display: flex;
   border-radius: 5px;
   background: #256ce1;
-  padding: 5px 20px;
+  padding: 5px 5px;
   text-align: center;
   color: #fff;
   outline: none;
@@ -15,5 +15,4 @@ export const Btn = styled.nav`
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   text-decoration: none;
-  margin-left: 24px;
 `;

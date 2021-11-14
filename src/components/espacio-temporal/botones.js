@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-export const NavBtn = styled.nav`
+export const NavBtnGenerar = styled.nav`
   display: flex;
   align-items: center;
   margin-right: 24px;
@@ -8,7 +8,7 @@ export const NavBtn = styled.nav`
 
 export const Button = styled.button`
   border-radius: 5px;
-  background: #E5E5E5;
+  background: #e5e5e5;
   padding: 8px 40px;
   text-align: center;
   color: #000;
